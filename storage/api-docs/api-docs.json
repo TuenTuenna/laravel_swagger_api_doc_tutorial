@@ -1,0 +1,305 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "정대리 프로젝트",
+        "description": "api 문서 만들기 튜토리얼",
+        "contact": {
+            "email": "dev_jeongdaeri@email.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "3.3.6"
+    },
+    "servers": [
+        {
+            "url": "http://api_tutorial-master.test/api/v1",
+            "description": "테스트 서버"
+        },
+        {
+            "url": "http://api_tutorial-master.real/api/v1",
+            "description": "실 서버"
+        }
+    ],
+    "paths": {
+        "/todos": {
+            "get": {
+                "tags": [
+                    "할 일 관련"
+                ],
+                "summary": "모든 할 일 목록 가져오기",
+                "description": "모든 할 일 목록을 가져온다.",
+                "operationId": "getTodosList",
+                "responses": {
+                    "200": {
+                        "description": "응답 성공"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key_security_example": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "할 일 관련"
+                ],
+                "summary": "할 일 추가하기",
+                "description": "할 일을 추가하고 추가된 할 일을 반환한다.",
+                "operationId": "storeTodo",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TodoRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "응답 성공 새 할 일 만들어짐",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Todo"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key_security_example": []
+                    }
+                ]
+            }
+        },
+        "/todos/{id}": {
+            "get": {
+                "tags": [
+                    "할 일 관련"
+                ],
+                "summary": "특정 할 일 가져오기",
+                "description": "특정 할 일 아이템을 가져온다.",
+                "operationId": "getTodoById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Todo_id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "응답 성공",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Todo"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key_security_example": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "할 일 관련"
+                ],
+                "summary": "기존 할 일 수정하기",
+                "description": "기존 할 일을 수정하고 수정된 할 일을 반환한다.",
+                "operationId": "updateTodo",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Todo_id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TodoRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "응답 성공",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Todo"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key_security_example": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "할 일 관련"
+                ],
+                "summary": "기존 할 일 삭제하기",
+                "description": "기존 할 일을 삭제한다.",
+                "operationId": "deleteTodo",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Todo_id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "NO CONTENT",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Todo"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key_security_example": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Todo": {
+                "title": "Todo model",
+                "description": "할 일 모델 입니다.",
+                "properties": {
+                    "id": {
+                        "title": "ID",
+                        "description": "ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "title": {
+                        "title": "Title",
+                        "description": "Title of a blog",
+                        "type": "string",
+                        "example": "A nice blog"
+                    },
+                    "content": {
+                        "title": "content",
+                        "description": "할 일 내용 입니다.",
+                        "type": "string",
+                        "example": "할 일 내용 예시"
+                    },
+                    "created_at": {
+                        "title": "Created at",
+                        "description": "Created at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2020-01-27 17:50:45"
+                    },
+                    "updated_at": {
+                        "title": "Updated at",
+                        "description": "Updated at",
+                        "type": "string",
+                        "format": "datetime",
+                        "example": "2020-01-27 17:50:45"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Todo"
+                }
+            },
+            "TodoRequest": {
+                "title": "Todo request",
+                "description": "Todo request body data",
+                "required": [
+                    "title",
+                    "content"
+                ],
+                "properties": {
+                    "title": {
+                        "title": "title",
+                        "description": "Title of the new todo",
+                        "type": "string",
+                        "example": "A nice todo"
+                    },
+                    "content": {
+                        "title": "content",
+                        "description": "Content of the new todo",
+                        "type": "string",
+                        "example": "This is new todo's description"
+                    }
+                },
+                "type": "object"
+            },
+            "TodoResource": {
+                "title": "TodoResource",
+                "description": "Todo resource",
+                "properties": {
+                    "data": {
+                        "title": "Data",
+                        "description": "Data wrapper",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Todo"
+                        }
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "TodoResource"
+                }
+            }
+        }
+    }
+}
